@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user_model.dart';
 import '../services/auth_service.dart';
@@ -37,7 +38,7 @@ class AuthNotifier extends StateNotifier<AsyncValue<UserModel?>> {
     state = const AsyncValue.loading();
     try {
       final response = await _ref.read(authServiceProvider).login(email, password);
-      final user = UserModel.fromJson(response);
+      final user = UserModel.fromJson(response!);
 
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('jwt_token', response['token']);

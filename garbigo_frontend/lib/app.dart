@@ -10,18 +10,32 @@ import 'screens/profile/profile_screen.dart';
 import 'screens/admin/user_management_screen.dart';
 import 'providers/auth_provider.dart';
 
-final _router = GoRouter(
+final GoRouter _router = GoRouter(
   initialLocation: '/login',
   redirect: (context, state) {
-    final authState = context.read(authProvider);
-    final isLoggedIn = authState.value != null;
-    final isAuthPath = state.subloc.startsWith('/login') ||
-        state.subloc.startsWith('/signup') ||
-        state.subloc.startsWith('/forgot') ||
-        state.subloc.startsWith('/verify');
+    final authState = ProviderScope.containerOf(context).read(authProvider);
 
-    if (!isLoggedIn && !isAuthPath) return '/login';
-    if (isLoggedIn && isAuthPath) return '/home';
+    final bool isLoggedIn = authState.value != null;
+    final String location = state.matchedLocation;
+
+    final bool isAuthRoute = [
+      '/login',
+      '/signup',
+      '/forgot',
+      '/verify-notice',
+    ].contains(location);
+
+    // If not logged in and trying to access protected route → go to login
+    if (!isLoggedIn && !isAuthRoute) {
+      return '/login';
+    }
+
+    // If logged in and trying to access auth routes → go to home
+    if (isLoggedIn && isAuthRoute) {
+      return '/home';
+    }
+
+    // No redirect
     return null;
   },
   routes: [
@@ -56,19 +70,21 @@ final _router = GoRouter(
   ],
 );
 
-class GarbigoApp extends ConsumerWidget {
+class GarbigoApp extends StatelessWidget {
   const GarbigoApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return MaterialApp.router(
-      title: 'Garbigo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF22C55E)),
-        useMaterial3: true,
+  Widget build(BuildContext context) {
+    return ProviderScope(
+      child: MaterialApp.router(
+        title: 'Garbigo',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF22C55E)),
+          useMaterial3: true,
+        ),
+        routerConfig: _router,
       ),
-      routerConfig: _router,
     );
   }
 }
