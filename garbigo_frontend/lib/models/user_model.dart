@@ -28,6 +28,16 @@ class UserModel {
   final String? lastName;
   final String? profilePictureUrl;
 
+  // Location fields
+  final String? addressLine1;
+  final String? addressLine2;
+  final String? city;
+  final String? stateOrProvince;
+  final String? postalCode;
+  final String? country;
+  final double? latitude;
+  final double? longitude;
+
   UserModel({
     required this.id,
     required this.email,
@@ -40,15 +50,41 @@ class UserModel {
     this.middleName,
     this.lastName,
     this.profilePictureUrl,
+    this.addressLine1,
+    this.addressLine2,
+    this.city,
+    this.stateOrProvince,
+    this.postalCode,
+    this.country,
+    this.latitude,
+    this.longitude,
   });
 
+  // Computed full name
   String get fullName {
-    if ((firstName ?? '').isEmpty && (lastName ?? '').isEmpty) {
-      return email.split('@')[0];
-    }
-    return '${firstName ?? ''} ${lastName ?? ''}'.trim();
+    final nameParts = [firstName, middleName, lastName]
+        .where((part) => part != null && part.isNotEmpty)
+        .join(' ');
+    return nameParts.isEmpty ? email.split('@')[0] : nameParts;
   }
 
+  // Computed full address
+  String get fullAddress {
+    final parts = [
+      addressLine1,
+      addressLine2,
+      city,
+      stateOrProvince,
+      postalCode,
+      country,
+    ].where((part) => part != null && part.isNotEmpty).join(', ');
+    return parts.isEmpty ? 'No address provided' : parts;
+  }
+
+  // Check if user has location set
+  bool get hasLocation => latitude != null && longitude != null;
+
+  // From JSON (used when receiving from backend)
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
       id: json['id'] ?? '',
@@ -68,9 +104,18 @@ class UserModel {
       middleName: json['middleName'],
       lastName: json['lastName'],
       profilePictureUrl: json['profilePictureUrl'],
+      addressLine1: json['addressLine1'],
+      addressLine2: json['addressLine2'],
+      city: json['city'],
+      stateOrProvince: json['stateOrProvince'],
+      postalCode: json['postalCode'],
+      country: json['country'],
+      latitude: json['latitude']?.toDouble(),
+      longitude: json['longitude']?.toDouble(),
     );
   }
 
+  // To JSON (used when sending updates to backend)
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -84,6 +129,59 @@ class UserModel {
       'middleName': middleName,
       'lastName': lastName,
       'profilePictureUrl': profilePictureUrl,
+      'addressLine1': addressLine1,
+      'addressLine2': addressLine2,
+      'city': city,
+      'stateOrProvince': stateOrProvince,
+      'postalCode': postalCode,
+      'country': country,
+      'latitude': latitude,
+      'longitude': longitude,
     };
+  }
+
+  // Copy with method for easy updates
+  UserModel copyWith({
+    String? id,
+    String? email,
+    String? username,
+    String? phoneNumber,
+    UserRole? role,
+    AccountStatus? accountStatus,
+    bool? isEmailVerified,
+    String? firstName,
+    String? middleName,
+    String? lastName,
+    String? profilePictureUrl,
+    String? addressLine1,
+    String? addressLine2,
+    String? city,
+    String? stateOrProvince,
+    String? postalCode,
+    String? country,
+    double? latitude,
+    double? longitude,
+  }) {
+    return UserModel(
+      id: id ?? this.id,
+      email: email ?? this.email,
+      username: username ?? this.username,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      role: role ?? this.role,
+      accountStatus: accountStatus ?? this.accountStatus,
+      isEmailVerified: isEmailVerified ?? this.isEmailVerified,
+      firstName: firstName ?? this.firstName,
+      middleName: middleName ?? this.middleName,
+      lastName: lastName ?? this.lastName,
+      profilePictureUrl: profilePictureUrl ?? this.profilePictureUrl,
+      addressLine1: addressLine1 ?? this.addressLine1,
+      addressLine2: addressLine2 ?? this.addressLine2,
+      city: city ?? this.city,
+      stateOrProvince: stateOrProvince ?? this.stateOrProvince,
+      postalCode: postalCode ?? this.postalCode,
+      country: country ?? this.country,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
+    );
   }
 }
