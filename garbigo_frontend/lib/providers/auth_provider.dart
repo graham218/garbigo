@@ -12,8 +12,9 @@ final authProvider = StateNotifierProvider<AuthNotifier, AsyncValue<UserModel?>>
 });
 
 class AuthNotifier extends StateNotifier<AsyncValue<UserModel?>> {
-  final Ref _ref;
-  AuthNotifier(this._ref) : super(const AsyncValue.loading()) {
+  final Ref ref;
+
+  AuthNotifier(this.ref) : super(const AsyncValue.loading()) {
     checkAuthStatus();
   }
 
@@ -24,20 +25,20 @@ class AuthNotifier extends StateNotifier<AsyncValue<UserModel?>> {
       final userJson = prefs.getString('user_data');
 
       if (token != null && userJson != null) {
-        final userMap = jsonDecode(userJson);
+        final Map<String, dynamic> userMap = jsonDecode(userJson);
         state = AsyncValue.data(UserModel.fromJson(userMap));
       } else {
         state = const AsyncValue.data(null);
       }
-    } catch (e) {
-      state = AsyncValue.error(e, StackTrace.current);
+    } catch (e, stack) {
+      state = AsyncValue.error(e, stack);
     }
   }
 
   Future<bool> login(String email, String password) async {
     state = const AsyncValue.loading();
     try {
-      final response = await _ref.read(authServiceProvider).login(email, password);
+      final response = await ref.read(authServiceProvider).login(email, password);
       final user = UserModel.fromJson(response!);
 
       final prefs = await SharedPreferences.getInstance();
@@ -54,7 +55,7 @@ class AuthNotifier extends StateNotifier<AsyncValue<UserModel?>> {
 
   Future<bool> signupClient(String email, String password) async {
     try {
-      final success = await _ref.read(authServiceProvider).signupClient(email, password);
+      final success = await ref.read(authServiceProvider).signupClient(email, password);
       return success;
     } catch (e) {
       state = AsyncValue.error(e, StackTrace.current);
@@ -64,7 +65,7 @@ class AuthNotifier extends StateNotifier<AsyncValue<UserModel?>> {
 
   Future<bool> signupCollector(String email, String password) async {
     try {
-      final success = await _ref.read(authServiceProvider).signupCollector(email, password);
+      final success = await ref.read(authServiceProvider).signupCollector(email, password);
       return success;
     } catch (e) {
       state = AsyncValue.error(e, StackTrace.current);
@@ -78,6 +79,5 @@ class AuthNotifier extends StateNotifier<AsyncValue<UserModel?>> {
     state = const AsyncValue.data(null);
   }
 
-  // Helper to get current user safely
   UserModel? get currentUser => state.value;
 }
