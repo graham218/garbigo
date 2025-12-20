@@ -10,32 +10,29 @@ import 'screens/profile/profile_screen.dart';
 import 'screens/admin/user_management_screen.dart';
 import 'providers/auth_provider.dart';
 
-final GoRouter _router = GoRouter(
+final GoRouter router = GoRouter(
   initialLocation: '/login',
   redirect: (context, state) {
-    final authState = ProviderScope.containerOf(context).read(authProvider);
+    // Safely access the Riverpod container
+    final container = ProviderScope.containerOf(context, listen: false);
+    final authState = container.read(authProvider);
 
-    final bool isLoggedIn = authState.value != null;
-    final String location = state.matchedLocation;
+    final bool isLoggedIn = authState.hasValue && authState.value != null;
+    final String currentPath = state.uri.path;
 
-    final bool isAuthRoute = [
-      '/login',
-      '/signup',
-      '/forgot',
-      '/verify-notice',
-    ].contains(location);
+    const List<String> authPaths = ['/login', '/signup', '/forgot', '/verify-notice'];
 
-    // If not logged in and trying to access protected route → go to login
-    if (!isLoggedIn && !isAuthRoute) {
+    // If not logged in → force to login (except auth pages)
+    if (!isLoggedIn && !authPaths.contains(currentPath)) {
       return '/login';
     }
 
-    // If logged in and trying to access auth routes → go to home
-    if (isLoggedIn && isAuthRoute) {
+    // If logged in → don't allow access to auth pages
+    if (isLoggedIn && authPaths.contains(currentPath)) {
       return '/home';
     }
 
-    // No redirect
+    // No redirect needed
     return null;
   },
   routes: [
@@ -83,7 +80,7 @@ class GarbigoApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF22C55E)),
           useMaterial3: true,
         ),
-        routerConfig: _router,
+        routerConfig: router,
       ),
     );
   }
