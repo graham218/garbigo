@@ -1,4 +1,4 @@
-package com.garbigo.model.request;
+package com.thepeacemakers.model.request;
 
 import lombok.Data;
 import javax.validation.constraints.NotBlank;
