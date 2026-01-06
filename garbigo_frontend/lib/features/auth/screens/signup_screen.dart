@@ -91,11 +91,11 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(Icons.recycling, color: Colors.white, size: 80),
+                    const Icon(Icons.recycling, color: Colors.white, size: 80),
                     const SizedBox(height: 24),
-                    Text(
+                    const Text(
                       "Join ${AppStrings.appName} Today",
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.white,
                         fontSize: 26,
                         fontWeight: FontWeight.bold,
@@ -121,6 +121,11 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                     ListTile(
                       leading: Icon(Icons.check_circle, color: Colors.green.shade300),
                       title: const Text("Real-time tracking", style: TextStyle(color: Colors.white)),
+                    ),
+                    const SizedBox(height: 32),
+                    const Text(
+                      "Sign up faster with social media",
+                      style: TextStyle(color: Colors.white70, fontSize: 14),
                     ),
                   ],
                 ),
@@ -321,6 +326,55 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
               padding: const EdgeInsets.only(top: 16),
               child: Text(authState.error!, style: const TextStyle(color: Colors.red)),
             ),
+
+          const SizedBox(height: 32),
+
+          // Social Media Signup Section
+          const Text('Or sign up with'),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                icon: Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.grey.shade300),
+                  ),
+                  child: const Icon(Icons.g_mobiledata, color: Colors.red, size: 32),
+                ),
+                onPressed: authNotifier.googleLogin,
+              ),
+              const SizedBox(width: 16),
+              IconButton(
+                icon: Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.grey.shade300),
+                  ),
+                  child: const Icon(Icons.facebook, color: Colors.blue, size: 32),
+                ),
+                onPressed: authNotifier.facebookLogin,
+              ),
+              const SizedBox(width: 16),
+              IconButton(
+                icon: Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.grey.shade300),
+                  ),
+                  child: const Icon(Icons.apple, color: Colors.white, size: 32),
+                ),
+                onPressed: authNotifier.appleLogin,
+              ),
+            ],
+          ),
 
           const SizedBox(height: 16),
           TextButton(

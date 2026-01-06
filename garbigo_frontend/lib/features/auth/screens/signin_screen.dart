@@ -81,25 +81,25 @@ class _SigninScreenState extends ConsumerState<SigninScreen> {
                   bottomLeft: Radius.circular(16),
                 ),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(40),
+              child: const Padding(
+                padding: EdgeInsets.all(40),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Icon(Icons.recycling, color: Colors.white, size: 80),
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24),
                     Text(
                       "Welcome to ${AppStrings.appName}",
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.white,
                         fontSize: 26,
                         fontWeight: FontWeight.bold,
                         height: 1.3,
                       ),
                     ),
-                    const SizedBox(height: 16),
-                    const Text(
+                    SizedBox(height: 16),
+                    Text(
                       "Sign in to manage your waste collection services, "
                           "track pickups, and earn rewards for recycling.",
                       style: TextStyle(color: Colors.white70, fontSize: 16, height: 1.5),
