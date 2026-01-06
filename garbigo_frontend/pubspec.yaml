@@ -39,6 +39,7 @@ dependencies:
   # Other utils
   intl: ^0.19.0  # For date formatting
   shared_preferences: ^2.3.1  # For storing token locally
+  fluttertoast: ^9.0.0
 
 dev_dependencies:
   flutter_test:
