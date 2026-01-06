@@ -1,7 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:garbigo_frontend/core/config/app_config.dart';
 import 'package:garbigo_frontend/core/utils/helpers.dart';
 import 'package:garbigo_frontend/features/auth/models/auth_response_model.dart';
@@ -11,6 +9,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../../../main.dart';
+import '../../location/providers/live_location_provider.dart';
 
 class AuthState {
   final bool isLoading;
@@ -195,12 +194,15 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
-  Future<void> logout(BuildContext context) async {
+  Future<void> logout() async {
     final prefs = ref.read(sharedPreferencesProvider);
     await prefs.clear();
-    state = AuthState();
-    ref.read(userProvider.notifier).clear();
-    context.go('/signin');
+
+    state = AuthState(); // Reset auth state
+    ref.read(userProvider.notifier).clear(); // Clear user data
+    ref.read(liveLocationProvider.notifier).stopTracking(); // Stop location if running
+
+    Helpers.showToast('Logged out successfully');
   }
 }
 

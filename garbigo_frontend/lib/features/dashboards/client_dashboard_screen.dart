@@ -20,7 +20,7 @@ class ClientDashboardScreen extends ConsumerWidget {
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () => Helpers.showLogoutDialog(context, () {
-              authNotifier.logout(context);
+              authNotifier.logout();
             }),
           ),
         ],

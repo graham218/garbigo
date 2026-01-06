@@ -46,7 +46,7 @@ class _CollectorDashboardScreenState extends ConsumerState<CollectorDashboardScr
             icon: const Icon(Icons.logout),
             onPressed: () => Helpers.showLogoutDialog(context, () {
               ref.read(liveLocationProvider.notifier).stopTracking();
-              authNotifier.logout(context);
+              authNotifier.logout();
             }),
           ),
         ],

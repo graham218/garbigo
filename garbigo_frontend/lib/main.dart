@@ -43,7 +43,6 @@ class MyApp extends ConsumerWidget {
     return MaterialApp.router(
       title: 'Garbigo',
       theme: AppThemes.lightTheme,
-      darkTheme: AppThemes.darkTheme,
       themeMode: ThemeMode.system,
       routerConfig: AppRouter.router,
       debugShowCheckedModeBanner: false,
