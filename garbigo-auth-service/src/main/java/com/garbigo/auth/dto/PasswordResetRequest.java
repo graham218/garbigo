@@ -1,5 +1,8 @@
 package com.garbigo.auth.dto;
 
-public class PasswordResetRequest {
+import lombok.Data;
 
+@Data
+public class PasswordResetRequest {
+    private String email;
 }

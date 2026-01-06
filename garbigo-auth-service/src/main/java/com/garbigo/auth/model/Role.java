@@ -1,5 +1,10 @@
 package com.garbigo.auth.model;
 
-public class Role {
-
+public enum Role {
+    CLIENT,
+    COLLECTOR,
+    ADMIN,
+    OPERATIONS,
+    FINANCE,
+    SUPPORT
 }

@@ -1,5 +1,8 @@
 package com.garbigo.auth.dto;
 
-public class SocialLoginRequest {
+import lombok.Data;
 
+@Data
+public class SocialLoginRequest {
+    private String token;
 }
