@@ -1,45 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
 
 class Helpers {
-  static void showToast(String message, {Color backgroundColor = Colors.black}) {
+  static void showToast(String msg, {bool isError = false}) {
     Fluttertoast.showToast(
-      msg: message,
+      msg: msg,
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
-      backgroundColor: backgroundColor,
+      backgroundColor: isError ? Colors.red : Colors.green,
       textColor: Colors.white,
     );
   }
 
-  static void showLoadingDialog(BuildContext context) {
+  static void showLogoutDialog(BuildContext context, VoidCallback onConfirm) {
     showDialog(
       context: context,
-      barrierDismissible: false,
-      builder: (context) => const Center(child: CircularProgressIndicator()),
-    );
-  }
-
-  static void hideLoadingDialog(BuildContext context) {
-    Navigator.pop(context);
-  }
-
-  static void showLogoutConfirmation(BuildContext context, VoidCallback onConfirm) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
+      builder: (ctx) => AlertDialog(
         title: const Text('Logout'),
         content: const Text('Are you sure you want to logout?'),
         actions: [
-          TextButton(
-            onPressed: () => context.pop(),
-            child: const Text('Cancel'),
-          ),
+          TextButton(onPressed: () => ctx.pop(), child: const Text('Cancel')),
           TextButton(
             onPressed: () {
+              ctx.pop();
               onConfirm();
-              context.pop();
             },
             child: const Text('Logout', style: TextStyle(color: Colors.red)),
           ),

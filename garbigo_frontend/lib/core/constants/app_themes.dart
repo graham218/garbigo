@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:garbigo_frontend/core/constants/app_colors.dart';
 
 class AppThemes {
   static final lightTheme = ThemeData(
-    brightness: Brightness.light,
-    primarySwatch: Colors.green,
-    scaffoldBackgroundColor: Colors.white,
+    primaryColor: AppColors.primary,
+    scaffoldBackgroundColor: AppColors.background,
     appBarTheme: const AppBarTheme(
-      color: Colors.green,
+      backgroundColor: AppColors.primary,
+      foregroundColor: Colors.white,
       elevation: 0,
     ),
-    buttonTheme: const ButtonThemeData(buttonColor: Colors.green),
-    // Add more customizations
-  );
-
-  static final darkTheme = ThemeData(
-    brightness: Brightness.dark,
-    primarySwatch: Colors.green,
-    scaffoldBackgroundColor: Colors.black,
-    appBarTheme: const AppBarTheme(
-      color: Colors.black,
-      elevation: 0,
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: AppColors.primary,
+        foregroundColor: Colors.white,
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      ),
     ),
-    // Add more
+    inputDecorationTheme: InputDecorationTheme(
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+      filled: true,
+      fillColor: Colors.white,
+    ),
   );
 }
