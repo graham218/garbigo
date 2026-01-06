@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import java.security.Key;
+import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.function.Function;
 
@@ -31,23 +31,23 @@ public class JwtUtil {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(getSignInKey())
+        return Jwts.parser()
+                .verifyWith(getSignInKey())  // Now correctly typed as SecretKey
                 .build()
-                .parseClaimsJws(token)
-                .getBody();
+                .parseSignedClaims(token)
+                .getPayload();
     }
 
-    private Key getSignInKey() {
+    private SecretKey getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(secret);
-        return Keys.hmacShaKeyFor(keyBytes);
+        return Keys.hmacShaKeyFor(keyBytes);  // Returns SecretKey directly
     }
 
     public String generateToken(UserDetails userDetails) {
         return Jwts.builder()
-                .setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + expiration * 1000))
+                .subject(userDetails.getUsername())
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + expiration * 1000))
                 .signWith(getSignInKey())
                 .compact();
     }

@@ -1,0 +1,66 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: auth-service
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/garbigo_auth
+  redis:
+    host: localhost
+    port: 6379
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: your-gmail@gmail.com                    # Replace with your Gmail
+    password: your-app-password                        # Use Gmail App Password (not regular password)
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+cloudinary:
+  cloud-name: your-cloud-name                        # Replace with your Cloudinary cloud name
+  api-key: your-api-key                              # Replace with your Cloudinary API key
+  api-secret: your-api-secret                        # Replace with your Cloudinary API secret
+
+jwt:
+  secret: yourverystrongbase64secretkeyatleast44chars==  # Must be Base64-encoded, ≥44 chars for HS256
+  expiration: 86400                                  # 24 hours in seconds
+
+rate-limit:
+  requests-per-minute: 20
+
+rabbitmq:
+  queue:
+    user-created: user-created-queue
+
+app:
+  url: http://localhost:3000                         # Your Flutter web/frontend URL (change for production)
+
+google:
+  client-id: your-google-client-id.apps.googleusercontent.com   # From Google Cloud Console
+
+facebook:
+  app-id: your-facebook-app-id
+  app-secret: your-facebook-app-secret
+
+apple:
+  client-id: your-apple-service-id                           # e.g., com.yourcompany.garbigo
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    prefer-ip-address: true

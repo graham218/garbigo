@@ -12,7 +12,11 @@ public class RedisConfig {
     @Bean
     public RedissonClient redissonClient() {
         Config config = new Config();
-        config.useSingleServer().setAddress("redis://localhost:6379");
+        config.useSingleServer()
+              .setAddress("redis://localhost:6379")
+              .setConnectionPoolSize(10)
+              .setConnectionMinimumIdleSize(5)
+              .setTimeout(5000);
         return Redisson.create(config);
     }
 }
