@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:garbigo_frontend/features/auth/providers/auth_provider.dart';
@@ -20,16 +21,18 @@ class AppRouter {
   static final router = GoRouter(
     initialLocation: '/signin',
     redirect: (context, state) {
-      final ref = ProviderScope.containerOf(context);
-      final authState = ref.read(authProvider);
-      final userState = ref.read(userProvider);
+      final container = ProviderScope.containerOf(context);
+      final authState = container.read(authProvider);
+      final userState = container.read(userProvider);
 
       final isLoggedIn = authState.token != null;
-      final isAuthPath = state.matchedLocation.startsWith('/signin') ||
-          state.matchedLocation.startsWith('/signup') ||
-          state.matchedLocation.startsWith('/verify') ||
-          state.matchedLocation.startsWith('/forgot') ||
-          state.matchedLocation.startsWith('/reset');
+      final isAuthPath = [
+        '/signin',
+        '/signup',
+        '/verify',
+        '/forgot',
+        '/reset',
+      ].contains(state.matchedLocation);
 
       if (!isLoggedIn && !isAuthPath) return '/signin';
       if (isLoggedIn && isAuthPath) {
@@ -54,25 +57,25 @@ class AppRouter {
       return null;
     },
     routes: [
-      GoRoute(path: '/signin', builder: (context, state) => SigninScreen()),
-      GoRoute(path: '/signup', builder: (context, state) => SignupScreen()),
+      GoRoute(path: '/signin', builder: (context, state) => const SigninScreen()),
+      GoRoute(path: '/signup', builder: (context, state) => const SignupScreen()),
       GoRoute(
         path: '/verify',
-        builder: (context, state) => VerifyEmailScreen(token: state.queryParams['token']!),
+        builder: (context, state) => VerifyEmailScreen(token: state.uri.queryParameters['token'] ?? ''),
       ),
-      GoRoute(path: '/forgot', builder: (context, state) => ForgotPasswordScreen()),
+      GoRoute(path: '/forgot', builder: (context, state) => const ForgotPasswordScreen()),
       GoRoute(
         path: '/reset',
-        builder: (context, state) => ResetPasswordScreen(token: state.queryParams['token']!),
+        builder: (context, state) => ResetPasswordScreen(token: state.uri.queryParameters['token'] ?? ''),
       ),
-      GoRoute(path: '/profile', builder: (context, state) => ProfileScreen()),
-      GoRoute(path: '/admin/dashboard', builder: (context, state) => AdminDashboardScreen()),
-      GoRoute(path: '/admin/users', builder: (context, state) => UserManagementScreen()),
-      GoRoute(path: '/dashboard/client', builder: (context, state) => ClientDashboardScreen()),
-      GoRoute(path: '/dashboard/collector', builder: (context, state) => CollectorDashboardScreen()),
-      GoRoute(path: '/dashboard/operations', builder: (context, state) => OperationsDashboardScreen()),
-      GoRoute(path: '/dashboard/finance', builder: (context, state) => FinanceDashboardScreen()),
-      GoRoute(path: '/dashboard/support', builder: (context, state) => SupportDashboardScreen()),
+      GoRoute(path: '/profile', builder: (context, state) => const ProfileScreen()),
+      GoRoute(path: '/admin/dashboard', builder: (context, state) => const AdminDashboardScreen()),
+      GoRoute(path: '/admin/users', builder: (context, state) => const UserManagementScreen()),
+      GoRoute(path: '/dashboard/client', builder: (context, state) => const ClientDashboardScreen()),
+      GoRoute(path: '/dashboard/collector', builder: (context, state) => const CollectorDashboardScreen()),
+      GoRoute(path: '/dashboard/operations', builder: (context, state) => const OperationsDashboardScreen()),
+      GoRoute(path: '/dashboard/finance', builder: (context, state) => const FinanceDashboardScreen()),
+      GoRoute(path: '/dashboard/support', builder: (context, state) => const SupportDashboardScreen()),
     ],
   );
 }
