@@ -18,8 +18,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: your-gmail@gmail.com                    # Replace with your Gmail
-    password: your-app-password                        # Use Gmail App Password (not regular password)
+    username: thepeacemakerske@gmail.com                  # Replace with your Gmail
+    password: 'mjyk cibp uids weiy'                     # Use Gmail App Password (not regular password)
     properties:
       mail:
         smtp:
@@ -28,13 +28,13 @@ spring:
             enable: true
 
 cloudinary:
-  cloud-name: your-cloud-name                        # Replace with your Cloudinary cloud name
-  api-key: your-api-key                              # Replace with your Cloudinary API key
-  api-secret: your-api-secret                        # Replace with your Cloudinary API secret
+  cloud-name: thepeacemakersllc                       # Replace with your Cloudinary cloud name
+  api-key: 279386562332176                              # Replace with your Cloudinary API key
+  api-secret: _UVXMFDd78NXrqPrIQA-JJK_u98                        # Replace with your Cloudinary API secret
 
 jwt:
-  secret: yourverystrongbase64secretkeyatleast44chars==  # Must be Base64-encoded, ≥44 chars for HS256
-  expiration: 86400                                  # 24 hours in seconds
+  secret: pR5q9T8wX2z7C4v3B6nM1kLj8HgFdEaSbQcW3eZr4tY7uKiOp9L0mN2bV5cX8jH  # Must be Base64-encoded, ≥44 chars for HS256
+  expiration: 2592000  # 30 days in seconds
 
 rate-limit:
   requests-per-minute: 20
@@ -56,11 +56,11 @@ facebook:
 apple:
   client-id: your-apple-service-id                           # e.g., com.yourcompany.garbigo
 
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-    fetch-registry: true
-    register-with-eureka: true
-  instance:
-    prefer-ip-address: true
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka/
+#    fetch-registry: true
+#    register-with-eureka: true
+#  instance:
+#    prefer-ip-address: true

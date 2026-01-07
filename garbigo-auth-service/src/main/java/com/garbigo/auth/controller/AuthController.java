@@ -34,6 +34,13 @@ public class AuthController {
         return ResponseEntity.ok("Account verified successfully");
     }
 
+    // Endpoint for Resending Verification Email
+    @PostMapping("/resend-verification")
+    public ResponseEntity<String> resendVerification(@RequestBody AuthRequest request) {
+        authService.resendVerificationEmail(request.getEmail());
+        return ResponseEntity.ok("Verification email resent");
+    }
+
     @PostMapping("/reset-password/request")
     public ResponseEntity<String> requestPasswordReset(@RequestBody PasswordResetRequest request) {
         authService.requestPasswordReset(request.getEmail());
